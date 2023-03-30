@@ -18,7 +18,7 @@ public class EventController {
     @Autowired
     KafkaTemplate<String, String> kafkaTemplate;
 
-    private static final String TOPIC = "NewTopic1";
+    private static final String TOPIC = "NewTopic";
 
 
     @GetMapping("/health")
