@@ -39,7 +39,7 @@ ${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties
 ### Topic Creation
 Create a topic called "NewTopic"
 ```bash
-${KAFKA_HOME}/bin/kafka-topics.sh --create --topic NewTopic --bootstrap-server localhost:9092
+${KAFKA_HOME}/bin/kafka-topics.sh --create --replication-factor 1 --partitions 1 --topic NewTopic --bootstrap-server localhost:9092
 ```
 
 ### Console Consumer
@@ -47,3 +47,18 @@ Start a console consumer to view the messages that will be produced out of the E
 ```bash
 ${KAFKA_HOME}/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic NewTopic1 --from-beginning
 ```
+
+## Start the service
+
+Bring up the service using the below command in your project directory:
+```console
+./gradlew bootRun
+```
+
+This will start the service on default port `8080`.
+
+## Publish Messages
+
+Use postman to hit the `publish` endpoint to publish events to Kafka topic.
+  
+![Postman Usage](/images/Postman_Usage.png?raw=true "Postman Usage")

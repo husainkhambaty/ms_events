@@ -1,17 +1,17 @@
 package io.thebuildingblocks.services.eventing.controller;
 
+import io.thebuildingblocks.services.eventing.entity.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value="/events", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value="/events", produces = { APPLICATION_JSON_VALUE })
 @Slf4j
 public class EventController {
 
@@ -26,12 +26,14 @@ public class EventController {
         return ResponseEntity.ok("Events is OK");
     }
 
-    @GetMapping("/publish/{message}")
-    public String publishMessage(@PathVariable("message") final String message) {
+    @PostMapping(value="/publish", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> publishMessage(@RequestBody Event event) {
 
         // Sending the message
-        kafkaTemplate.send(TOPIC, message);
-        return "Published Successfully";
+        kafkaTemplate.send(TOPIC, event.getMessage());
+        log.info("message: " + event.getMessage());
+
+        return ResponseEntity.ok("Published Successfully");
     }
 
 }
