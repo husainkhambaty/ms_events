@@ -1,6 +1,8 @@
 # Events Service - Publish to Kafka Topic
 This service provides a REST interface to help publish a message/event to a Kafka topic.
 
+![Design](/images/design.png?raw=true "Design")
+
 ## Pre-requisites
 This service depends on pre-existing Kafka infrastructure. Use the below commands to bring up all Kafka components to quickly play with the Publisher.
 
