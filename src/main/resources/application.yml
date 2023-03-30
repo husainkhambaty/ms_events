@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: false
+    include-stacktract: on_trace_param
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+spring:
+  application:
+    name: EVENT-SERVICE
+

@@ -3,6 +3,7 @@ package io.thebuildingblocks.services.eventing.controller;
 import io.thebuildingblocks.services.eventing.entity.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -28,12 +29,17 @@ public class EventController {
 
     @PostMapping(value="/publish", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> publishMessage(@RequestBody Event event) {
+        if (event.getMessage() != null) {
+            // Sending the message
+            kafkaTemplate.send(TOPIC, event.getMessage());
+            log.info("message: " + event.getMessage());
+            return ResponseEntity.ok("Published Successfully");
+        } else {
+            log.error("message is null");
+            return new ResponseEntity<>("Message is empty", HttpStatus.BAD_REQUEST);
+        }
 
-        // Sending the message
-        kafkaTemplate.send(TOPIC, event.getMessage());
-        log.info("message: " + event.getMessage());
 
-        return ResponseEntity.ok("Published Successfully");
     }
 
 }
